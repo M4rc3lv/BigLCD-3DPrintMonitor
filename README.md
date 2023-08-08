@@ -7,3 +7,6 @@ Hardware: zie schema. De I2C-bus heb ik met pullup-weerstanden met de 5V verbond
 
 <img src="doc/schema.png" width="600px">
 <img src="doc/email.png" width="600px">
+
+Hieronder een testopstelling. Elke regel van het LCD laat de status van een enkele printer zien.
+<img src="doc/werkbanktest.jpg" width="600px">
