@@ -3,6 +3,8 @@ Een 3D-Printer monitor met groot LCD die push-berichten verstuurd. Dit is een al
 
 Als een print klaar is verstuurt hij een e-mail.
 
+Alles werkt vanuit het script <a href="MonitormetBigLCD/MonitormetBigLCD.ino">MonitormetBigLCD.ino</a>, dus vanuit de hardware. Om de mail te versturen roept hij een website aan waar een PHP-bestand staat dat de mail verstuurd. Alles is te configureren door het editen van een bestand: <a href="MonitormetBigLCD/Config.h">Config.h</a>
+
 Hardware: zie schema. De I2C-bus heb ik met pullup-weerstanden met de 5V verbonden (terwijl de ESP8266 met 3,3V werkt) want ik heb gemerkt dat hij daardoor stabieler is.
 
 <img src="doc/schema.png" width="600px">
