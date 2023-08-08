@@ -8,5 +8,5 @@ Hardware: zie schema. De I2C-bus heb ik met pullup-weerstanden met de 5V verbond
 <img src="doc/schema.png" width="600px">
 <img src="doc/email.png" width="600px">
 
-Hieronder een testopstelling. Elke regel van het LCD laat de status van een enkele printer zien.
+Hieronder een testopstelling. Elke regel van het LCD laat de status van een enkele printer zien. De eerste printer staat stil, de tweede en de vierde zijn aan het printen (achtereenvolgens een object met de naam 'Big thingy' en 'behuizing') en de derde printer is klaar met het printen van 'Tafelpoot 10m'. Die derde printer heeft een mail verstuurd dat hij klaar was.
 <img src="doc/werkbanktest.jpg" width="600px">
