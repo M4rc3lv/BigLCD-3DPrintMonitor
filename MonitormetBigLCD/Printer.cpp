@@ -106,7 +106,9 @@ void Printer::UploadImgToServer() {
  Serial.printf("Verstuur naar mijn server %d\r\n",_Image.length());
  WiFiClient c;      
  HTTPClient http2;
- http2.begin(c,String(MY_WEBSITE)+String("naam=")+urlEncode(_Naam+".png"));  
+ String url=String(MY_WEBSITE)+String("upload.php?")+String("naam=")+urlEncode(_Naam+".png");
+ Serial.println(url);
+ http2.begin(c,url);  
  http2.addHeader("Content-Type","application/octet-stream");
  Serial.println("0");
  //http2.POST((uint8_t*)pic.c_str(),pic.length());
