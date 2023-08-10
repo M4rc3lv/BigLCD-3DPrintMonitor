@@ -42,7 +42,7 @@ void setup() {
 
 void loop() {
  static long BacklightTimer=millis();
- if(D1Mini.run()== WL_CONNECTED){  
+ if(D1Mini.run()== WL_CONNECTED){   
   int nAantalPrinten=0;
   for(int i=0; i<NUMPRINTERS; i++) {
    p[i]->Refresh();
@@ -87,6 +87,11 @@ void loop() {
    if(nAantalPrinten>0) BacklightTimer=millis();
    LCD.backlight();
   }
+ }
+ else {
+  LCD.clear();
+  LCD.print("Geen netwerk!");
+  LCD.backlight();
  }
  delay(10000);
 }
