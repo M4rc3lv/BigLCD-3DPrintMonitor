@@ -23,6 +23,8 @@ const char *Printers[]={
 Printer *p[NUMPRINTERS];
 void Cls(const char *txt=NULL);
 
+const char *Twintig="                    ";
+
 void setup() {
  Serial.begin(115200);
  LCD.begin(5,4); // I2C LCD aangesloten op D1 (SCL) and D2 (SDA)
@@ -48,6 +50,7 @@ void loop() {
    p[i]->Refresh();
    ClrLine(i);
    LCD.setCursor(0,i);
+   LCD.print("...");
    if(p[i]->IsPrinting()) {  
     nAantalPrinten++;
     LCD.backlight();
@@ -55,6 +58,7 @@ void loop() {
     int procent=p[i]->ProcentComplete();
     String sProcent(procent);
     if(procent<100) sProcent+="%"; else sProcent="100";
+    LCD.setCursor(0,i);
     LCD.printf("%3d%c %-3s %-11s", p[i]->Temperatuur(), 223/*Gradensymbooltje*/, sProcent.c_str(), p[i]->Filenaam(11).c_str());     
 
     if(!p[i]->IsImageUploaded) {
@@ -66,16 +70,22 @@ void loop() {
    else {
     if(p[i]->IsMonitoring) {
      p[i]->SendPrintReadyEmail();
-     LCD.printf("Klaar: %s",p[i]->Filenaam(13).c_str());
+     LCD.setCursor(0,i);LCD.printf("Klaar: %s",p[i]->Filenaam(13).c_str());
      p[i]->IsMonitoring=false;
     }    
     else if(p[i]->Status().indexOf("Paused")==0) LCD.print("Gepauzeerd          ");
     else {
      String f=p[i]->Filenaam(13);
-     if(f!="null" && f.length()>0)
+     if(f!="null" && f.length()>0) {
+      ClrLine(i);
+      LCD.setCursor(0,i);
       LCD.printf("Klaar: %s",f.c_str());
-     else
-      LCD.print("                    ");
+     }
+     else {
+      ClrLine(i);
+      LCD.setCursor(0,i);
+      LCD.printf("%s staat uit",p[i]->Naam().c_str());
+     }
     }
     p[i]->IsImageUploaded=false;
    }
@@ -98,7 +108,7 @@ void loop() {
 
 void ClrLine(int Line) {
  LCD.setCursor(0,Line);
- LCD.print("                    ");
+ LCD.print(Twintig);
 }
 
 void Cls(const char *txt /*=NULL*/) {
