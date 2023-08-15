@@ -87,19 +87,35 @@ void Printer::SendPrintReadyEmail() {
  http.end(); 
 }
 
-void Printer::GetImageFromPrinter() {
+bool Printer::GetImageFromPrinter() {
+ bool ret=false;
  String PicFileName=_JobJson["job"]["file"]["path"].as<String>(); // /usb/TRECHT~3.GCO ==>  thumb/l/usb/TRECHT~2.GCO
- Serial.printf("Imgfile: %s\r\n",PicFileName.c_str());
+ Serial.printf("Imgfile %s: %s\r\n",Naam().c_str(),PicFileName.c_str());
  WiFiClient Wifi;  
  HTTPClient http;
  http.begin(Wifi,_IPAdres+"/thumb/l"+PicFileName);   
  http.addHeader("X-Api-Key", _APIKey);  
- int httpCode = http.GET();
- if(httpCode>0) {
-  _Image=http.getString(); 
-  Serial.printf("Inlezen gelukt, lengte=%ld\r\n",_Image.length());  
+ int httpCode = http.GET(); 
+ if(httpCode>0) {    
+  _Image=http.getString();   
+  Serial.printf("Inlezen L gelukt, lengte=%ld\r\n",_Image.length());  
+  if(_Image.length()>0) ret=true;
  }
  http.end(); 
+ if(!ret) {
+  // Soms is het plaatje te groot...HTTPClient http;
+  http.begin(Wifi,_IPAdres+"/thumb/s"+PicFileName);   
+  http.addHeader("X-Api-Key", _APIKey);  
+  int httpCode = http.GET(); 
+  if(httpCode>0) {    
+   _Image=http.getString();   
+   Serial.printf("Inlezen S gelukt, lengte=%ld\r\n",_Image.length());  
+   if(_Image.length()>0) ret=true;
+  }
+  http.end(); 
+  return true; // Altijd true want heeft nu geen zin meer om nog te proberen
+ }
+ return ret;
 }
 
 void Printer::UploadImgToServer() {
